@@ -1,11 +1,11 @@
-import {$} from '@core/dom';
+import {$} from '@core/dom'
 
 export function resizeHandler($root, event) {
   const $resizer = $(event.target)
   const $parent = $resizer.closest('[data-type="resizable"]')
   const coords = $parent.getCoords()
   const type = $resizer.data.resize
-  const sideProp = type === 'col'?'bottom':'right'
+  const sideProp = type === 'col' ? 'bottom' : 'right'
   let value
 
   $resizer.css({
@@ -13,16 +13,14 @@ export function resizeHandler($root, event) {
     [sideProp]: '-5000px'
   })
 
-  const cell = $root.findAll(`[data-col="${$parent.data.col}"]`)
-
   document.onmousemove = e => {
     if (type === 'col') {
       const delta = e.pageX - coords.right
-      value = coords.width+delta
+      value = coords.width + delta
       $resizer.css({right: -delta + 'px'})
     } else {
       const delta = e.pageY - coords.bottom
-      value = coords.height+delta
+      value = coords.height + delta
       $resizer.css({bottom: -delta + 'px'})
     }
   }
@@ -33,11 +31,16 @@ export function resizeHandler($root, event) {
 
     if (type === 'col') {
       $parent.css({width: value + 'px'})
-      cell.forEach(el=>el.style.width=value+'px')
-    } else if (type === 'row') {
+      $root.findAll(`[data-col="${$parent.data.col}"]`)
+          .forEach(el => el.style.width = value + 'px')
+    } else {
       $parent.css({height: value + 'px'})
     }
 
-    $resizer.css({opacity: 0, bottom: 0, right: 0})
+    $resizer.css({
+      opacity: 0,
+      bottom: 0,
+      right: 0
+    })
   }
 }
