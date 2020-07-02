@@ -14,16 +14,8 @@ const filename = extension =>
     :`bundle.[hash].${extension}`
 
 const jsLoaders = () => {
-  const loaders = [
-    {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env'],
-        plugins: ['@babel/plugin-proposal-class-properties']
-      }
-    }
-  ]
-  if(isDev){
+  const loaders = ['babel-loader']
+  if (isDev) {
     loaders.push('eslint-loader')
   }
 
@@ -32,8 +24,8 @@ const jsLoaders = () => {
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  mode: "development",
-  entry: ['@babel/polyfill','./index.js'],
+  mode: 'development',
+  entry: ['@babel/polyfill', './index.js'],
   output: {
     filename: filename('js'),
     path: path.resolve(__dirname, 'dist')
@@ -53,7 +45,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
-      template: "index.html",
+      template: 'index.html',
       minify: {
         removeComments: isProd,
         collapseWhitespace: isProd,
@@ -70,7 +62,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: filename('css')
     }),
-    new webpack.DefinePlugin ({
+    new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     })
   ],
@@ -82,7 +74,7 @@ module.exports = {
           {
             loader: MiniCssExtractPlugin.loader,
             options: {
-              hmr:isDev,
+              hmr: isDev,
               reloadAll: true
             }
           },
